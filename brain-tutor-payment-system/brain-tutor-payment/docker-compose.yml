@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # Aplicação Node.js
+  app:
+    build: .
+    container_name: brain-tutor-app
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=brain_tutor
+      - DB_USER=braintutor
+      - DB_PASSWORD=braintutor123
+      - JWT_SECRET=brain_tutor_jwt_secret_super_seguro_2024
+      - STRIPE_PUBLIC_KEY=pk_test_51QdQcGKYBaWbKGZ7kHdR8eXcZNb9X5ykJQ1pZPRvS0LpTMzYAGHi3z0eXqJvJT3jcFPHkUqU2fALnfJKqmXQiLlU00O9s7YXPq
+      - STRIPE_SECRET_KEY=sk_test_seu_stripe_secret_key_aqui
+      - STRIPE_WEBHOOK_SECRET=whsec_seu_webhook_secret_aqui
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./client:/app/client
+    networks:
+      - brain-tutor-network
+    restart: unless-stopped
+
+  # Banco de dados MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: brain-tutor-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=brain_tutor
+      - MYSQL_USER=braintutor
+      - MYSQL_PASSWORD=braintutor123
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./server/config/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./server/config/migrations/002_add_payment_system.sql:/docker-entrypoint-initdb.d/02-payment-migration.sql
+    networks:
+      - brain-tutor-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 40s
+
+  # Nginx para servir arquivos estáticos
+  nginx:
+    image: nginx:alpine
+    container_name: brain-tutor-nginx
+    ports:
+      - "3000:80"
+    volumes:
+      - ./client:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+    networks:
+      - brain-tutor-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  brain-tutor-network:
+    driver: bridge

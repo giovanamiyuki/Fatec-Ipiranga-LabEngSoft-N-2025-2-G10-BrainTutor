@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - Brain Tutor</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/checkout.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo">
+                <h1>🧠 Brain Tutor</h1>
+            </div>
+            <nav class="main-nav">
+                <a href="../index.html">Início</a>
+                <div class="user-menu" id="userMenu">
+                    <span id="userName">Carregando...</span>
+                    <div class="dropdown-menu">
+                        <a href="profile.html">Perfil</a>
+                        <a href="#" onclick="logout()">Sair</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="checkout-container">
+        <div class="checkout-wrapper">
+            
+            <!-- Coluna Esquerda: Detalhes da Aula -->
+            <div class="checkout-column lesson-details">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📚 Detalhes da Aula</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="lesson-info" id="lessonInfo">
+                            <!-- Carregado dinamicamente via JavaScript -->
+                            <div class="loading">Carregando informações...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna Centro: Pagamento -->
+            <div class="checkout-column payment-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>💳 Pagamento</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Formulário de Pagamento Stripe -->
+                        <form id="payment-form">
+                            <div class="payment-methods">
+                                <div class="method-tabs">
+                                    <button type="button" class="method-tab active" data-method="card">
+                                        💳 Cartão de Crédito
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Stripe Card Element -->
+                            <div id="card-element" class="stripe-element">
+                                <!-- Stripe.js injeta o formulário de cartão aqui -->
+                            </div>
+
+                            <!-- Mensagens de erro -->
+                            <div id="card-errors" class="error-message" role="alert"></div>
+
+                            <!-- Resumo do Pagamento -->
+                            <div class="payment-summary">
+                                <div class="summary-row">
+                                    <span>Valor da aula:</span>
+                                    <span id="lessonPrice" class="price">R$ 0,00</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Taxa de processamento:</span>
+                                    <span class="price">R$ 0,00</span>
+                                </div>
+                                <div class="summary-divider"></div>
+                                <div class="summary-row total">
+                                    <span><strong>Total:</strong></span>
+                                    <span id="totalPrice" class="price"><strong>R$ 0,00</strong></span>
+                                </div>
+                            </div>
+
+                            <!-- Botão de Pagamento -->
+                            <button type="submit" id="submit-payment" class="btn btn-primary btn-large">
+                                <span id="button-text">Confirmar Pagamento</span>
+                                <div class="spinner hidden" id="spinner"></div>
+                            </button>
+
+                            <!-- Mensagem de Sucesso -->
+                            <div id="payment-message" class="success-message hidden"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna Direita: Garantias e Segurança -->
+            <div class="checkout-column security-info">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🔒 Segurança</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="security-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">🔐</div>
+                                <div class="feature-text">
+                                    <h4>Pagamento 100% Seguro</h4>
+                                    <p>Processado via Stripe com criptografia SSL</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item">
+                                <div class="feature-icon">✅</div>
+                                <div class="feature-text">
+                                    <h4>Aula Confirmada Imediatamente</h4>
+                                    <p>Receba confirmação instantânea após o pagamento</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item">
+                                <div class="feature-icon">💰</div>
+                                <div class="feature-text">
+                                    <h4>Reembolso Garantido</h4>
+                                    <p>Problemas técnicos? Reembolsamos 100%</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item">
+                                <div class="feature-icon">🎓</div>
+                                <div class="feature-text">
+                                    <h4>Professores Verificados</h4>
+                                    <p>Todos os professores são validados</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item">
+                                <div class="feature-icon">📧</div>
+                                <div class="feature-text">
+                                    <h4>Suporte 24/7</h4>
+                                    <p>Estamos aqui para ajudar sempre que precisar</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card de Informações de Teste (apenas em modo de teste) -->
+                <div class="card test-info-card" id="testInfoCard">
+                    <div class="card-header">
+                        <h3>🧪 Modo de Teste</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Use estes cartões para teste:</strong></p>
+                        <ul class="test-cards-list">
+                            <li>
+                                <strong>✅ Sucesso:</strong><br>
+                                <code>4242 4242 4242 4242</code>
+                            </li>
+                            <li>
+                                <strong>❌ Falha:</strong><br>
+                                <code>4000 0000 0000 0002</code>
+                            </li>
+                            <li>
+                                <strong>🔐 3D Secure:</strong><br>
+                                <code>4000 0027 6000 3184</code>
+                            </li>
+                        </ul>
+                        <p class="test-info-note">
+                            <small>Use qualquer data futura e qualquer CVC de 3 dígitos</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal de Sucesso -->
+    <div id="successModal" class="modal">
+        <div class="modal-content success-modal">
+            <div class="success-icon">✅</div>
+            <h2>Pagamento Realizado com Sucesso!</h2>
+            <p>Sua aula foi confirmada e o professor foi notificado.</p>
+            <div class="modal-actions">
+                <button onclick="window.location.href='../index.html'" class="btn btn-primary">
+                    Ver Minhas Aulas
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/checkout.js"></script>
+</body>
+</html>

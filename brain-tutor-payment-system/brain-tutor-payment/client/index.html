@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Tutor - Conectando mentes, construindo futuros</title>
+    <meta name="description" content="Encontre os melhores professores particulares ou ofereça suas aulas. Plataforma completa para educação personalizada.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brain Tutor</span>
+                </div>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="#home" class="nav-link">Início</a>
+                    <a href="#teachers" class="nav-link">Professores</a>
+                    <a href="#about" class="nav-link">Sobre</a>
+                    <a href="#contact" class="nav-link">Contato</a>
+                </div>
+
+                <div class="nav-auth" id="navAuth">
+                    <button class="btn btn-outline" onclick="showLogin()">Entrar</button>
+                    <button class="btn btn-primary" onclick="showRegister()">Cadastrar</button>
+                </div>
+
+                <div class="nav-user hidden" id="navUser">
+                    <div class="user-dropdown">
+                        <button class="user-btn" onclick="toggleUserMenu()">
+                            <img src="assets/images/default-avatar.svg" alt="Avatar" class="user-avatar" id="userAvatar">
+                            <span id="userName">Usuário</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="userDropdown">
+                            <a href="#" onclick="showProfile()"><i class="fas fa-user"></i> Meu Perfil</a>
+                            <a href="#" onclick="showDashboard()"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="nav-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Encontre o professor <span class="highlight">perfeito</span> para você</h1>
+                    <p>Conectamos estudantes aos melhores professores particulares. Aprenda no seu ritmo, alcance seus objetivos.</p>
+                    
+                    <div class="hero-search">
+                        <div class="search-container">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar por nome, matéria ou palavra-chave..." id="heroSearchInput">
+                            <button class="search-btn" onclick="searchTeachers()">Buscar</button>
+                        </div>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Professores</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">10k+</span>
+                            <span class="stat-label">Aulas Realizadas</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">98%</span>
+                            <span class="stat-label">Satisfação</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-image">
+                    <img src="assets/images/hero-illustration.svg" alt="Ilustração de estudos" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Teachers Section -->
+        <section id="teachers" class="teachers-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Nossos Professores</h2>
+                    <p>Encontre o professor ideal para suas necessidades</p>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-container">
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="subjectFilter">Matéria:</label>
+                            <select id="subjectFilter" onchange="applyFilters()">
+                                <option value="">Todas as matérias</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="locationFilter">Localização:</label>
+                            <input type="text" id="locationFilter" placeholder="Cidade, estado..." onchange="applyFilters()">
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="priceRange">Preço máximo:</label>
+                            <input type="range" id="priceRange" min="0" max="200" value="200" onchange="updatePriceLabel(); applyFilters()">
+                            <span id="priceLabel">R$ 200/h</span>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="ratingFilter">Avaliação mínima:</label>
+                            <div class="rating-filter">
+                                <input type="range" id="ratingFilter" min="0" max="5" step="0.5" value="0" onchange="updateRatingLabel(); applyFilters()">
+                                <span id="ratingLabel">Qualquer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="clear-filters" onclick="clearFilters()">
+                        <i class="fas fa-times"></i> Limpar Filtros
+                    </button>
+                </div>
+
+                <!-- Teachers Grid -->
+                <div class="teachers-grid" id="teachersGrid">
+                    <div class="loading" id="teachersLoading">
+                        <div class="spinner"></div>
+                        <p>Carregando professores...</p>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container" id="paginationContainer">
+                    <!-- Pagination buttons will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Por que escolher o Brain Tutor?</h2>
+                    <p>Sua plataforma completa de educação personalizada</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3>Professores Qualificados</h3>
+                        <p>Todos os nossos professores passam por um rigoroso processo de seleção e verificação de qualificações.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Flexibilidade Total</h3>
+                        <p>Agende suas aulas quando for conveniente para você. Estude no seu ritmo e horário.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Seguro e Confiável</h3>
+                        <p>Plataforma segura com sistema de avaliações e pagamentos protegidos.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Acompanhe seu Progresso</h3>
+                        <p>Dashboard completo para acompanhar seu desenvolvimento e estatísticas de aprendizado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Brain Tutor</span>
+                    </div>
+                    <p>Conectando mentes, construindo futuros através da educação personalizada.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Para Estudantes</h4>
+                    <ul>
+                        <li><a href="#">Encontrar Professores</a></li>
+                        <li><a href="#">Como Funciona</a></li>
+                        <li><a href="#">Preços</a></li>
+                        <li><a href="#">Ajuda</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Para Professores</h4>
+                    <ul>
+                        <li><a href="#">Ensinar na Plataforma</a></li>
+                        <li><a href="#">Centro de Recursos</a></li>
+                        <li><a href="#">Políticas</a></li>
+                        <li><a href="#">Suporte</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contato@braintutor.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Brain Tutor. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal()"></div>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Bem-vindo de volta</h2>
+                <p>Entre com suas credenciais para acessar sua conta</p>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form class="modal-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Senha</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                    <a href="#" class="forgot-password" onclick="showForgotPassword()">Esqueceu sua senha?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Entrar</button>
+
+                <div class="modal-footer">
+                    <p>Não tem uma conta? <a href="#" onclick="showRegister()">Cadastre-se</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Bem-vindo! 👋</h2>
+                <p>Crie sua conta gratuita em menos de 1 minuto</p>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form class="modal-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="registerName">Nome completo</label>
+                    <input type="text" id="registerName" name="name" placeholder="Ex: João Silva" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" name="email" placeholder="Ex: joao@email.com (pode ser qualquer email para testar)" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">Senha (mínimo 6 caracteres)</label>
+                    <input type="password" id="registerPassword" name="password" placeholder="Ex: 123456" required minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar senha</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Digite a mesma senha" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Você é:</label>
+                    <div class="user-type-selector">
+                        <div class="user-type-option" data-type="student">
+                            <input type="radio" id="studentType" name="userType" value="student" checked>
+                            <label for="studentType">
+                                <i class="fas fa-user"></i>
+                                <span>Aluno</span>
+                                <p>Quero encontrar professores</p>
+                            </label>
+                        </div>
+                        
+                        <div class="user-type-option" data-type="teacher">
+                            <input type="radio" id="teacherType" name="userType" value="teacher">
+                            <label for="teacherType">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>Professor</span>
+                                <p>Quero oferecer aulas</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="teacherFields" class="teacher-fields hidden">
+                    <div class="form-group">
+                        <label for="teacherSubject">Matéria principal</label>
+                        <input type="text" id="teacherSubject" name="subject" placeholder="Ex: Matemática">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teacherRate">Valor por hora (R$)</label>
+                        <input type="number" id="teacherRate" name="hourlyRate" placeholder="Ex: 90.00" step="0.01" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teacherDescription">Breve descrição</label>
+                        <textarea id="teacherDescription" name="description" placeholder="Conte um pouco sobre sua experiência..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Criar conta</button>
+
+                <div class="modal-footer">
+                    <p>Já tem uma conta? <a href="#" onclick="showLogin()">Fazer login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Recuperar senha</h2>
+                <p>Digite seu email para receber instruções de recuperação</p>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form class="modal-form" onsubmit="handleForgotPassword(event)">
+                <div class="form-group">
+                    <label for="forgotEmail">Email</label>
+                    <input type="email" id="forgotEmail" name="email" placeholder="seu@email.com" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Enviar instruções</button>
+
+                <div class="modal-footer">
+                    <p><a href="#" onclick="showLogin()">← Voltar para o login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Teacher Details Modal -->
+    <div id="teacherModal" class="modal modal-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="teacher-details" id="teacherDetails">
+                <!-- Teacher details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/teachers.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
