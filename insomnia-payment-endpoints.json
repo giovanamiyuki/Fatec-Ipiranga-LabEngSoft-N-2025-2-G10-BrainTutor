@@ -1,0 +1,205 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-04-15T10:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_payment_system",
+      "_type": "workspace",
+      "name": "Brain Tutor - Payment System",
+      "description": "Endpoints para sistema de pagamento e agendamento de aulas",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_payment_base",
+      "_type": "environment",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3001",
+        "token": ""
+      },
+      "parentId": "wrk_payment_system"
+    },
+    {
+      "_id": "req_create_lesson",
+      "_type": "request",
+      "parentId": "fld_lessons",
+      "name": "01 - Criar Agendamento de Aula",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/lessons",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"teacher_id\": 2,\n  \"subject\": \"Matemática\",\n  \"description\": \"Aula de cálculo diferencial\",\n  \"scheduled_date\": \"2025-04-20T14:00:00\",\n  \"duration_minutes\": 50,\n  \"price\": 45.00,\n  \"notes\": \"Trazer caderno e calculadora\"\n}"
+      }
+    },
+    {
+      "_id": "req_get_lesson",
+      "_type": "request",
+      "parentId": "fld_lessons",
+      "name": "02 - Buscar Detalhes da Aula",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/lessons/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_list_lessons",
+      "_type": "request",
+      "parentId": "fld_lessons",
+      "name": "03 - Listar Aulas do Usuário",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/lessons?role=student&status=pending",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_update_lesson_status",
+      "_type": "request",
+      "parentId": "fld_lessons",
+      "name": "04 - Atualizar Status da Aula",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/lessons/1/status",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"confirmed\",\n  \"meeting_link\": \"https://zoom.us/j/123456789\"\n}"
+      }
+    },
+    {
+      "_id": "req_cancel_lesson",
+      "_type": "request",
+      "parentId": "fld_lessons",
+      "name": "05 - Cancelar Aula",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/lessons/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_create_payment_intent",
+      "_type": "request",
+      "parentId": "fld_payments",
+      "name": "01 - Criar PaymentIntent (Stripe)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/payments/create-intent",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"lesson_id\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_get_payment_by_lesson",
+      "_type": "request",
+      "parentId": "fld_payments",
+      "name": "02 - Buscar Pagamento da Aula",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/payments/lesson/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_refund_payment",
+      "_type": "request",
+      "parentId": "fld_payments",
+      "name": "03 - Solicitar Reembolso",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/payments/1/refund",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"reason\": \"Problemas técnicos durante a aula\"\n}"
+      }
+    },
+    {
+      "_id": "req_webhook_test",
+      "_type": "request",
+      "parentId": "fld_payments",
+      "name": "04 - Webhook (Simulação)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/payments/webhook",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "stripe-signature",
+          "value": "test_signature"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id\": \"evt_test_webhook\",\n  \"type\": \"payment_intent.succeeded\",\n  \"data\": {\n    \"object\": {\n      \"id\": \"pi_test_payment_intent\",\n      \"amount\": 4500,\n      \"currency\": \"brl\",\n      \"status\": \"succeeded\"\n    }\n  }\n}"
+      }
+    },
+    {
+      "_id": "fld_lessons",
+      "_type": "request_group",
+      "parentId": "wrk_payment_system",
+      "name": "📚 Lessons (Aulas)",
+      "description": "Endpoints para gerenciamento de aulas"
+    },
+    {
+      "_id": "fld_payments",
+      "_type": "request_group",
+      "parentId": "wrk_payment_system",
+      "name": "💳 Payments (Pagamentos)",
+      "description": "Endpoints para processamento de pagamentos via Stripe"
+    }
+  ]
+}

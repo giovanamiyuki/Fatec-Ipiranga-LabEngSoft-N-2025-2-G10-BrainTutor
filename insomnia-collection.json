@@ -1,0 +1,505 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2024-01-15T12:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "req_auth_register",
+      "parentId": "fld_auth",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/auth/register",
+      "name": "Register User",
+      "description": "Registrar novo usuário (estudante ou professor)",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"João Silva\",\n  \"email\": \"joao@teste.com\",\n  \"password\": \"123456\",\n  \"userType\": \"student\",\n  \"phone\": \"(11) 99999-9999\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1705320000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_register_teacher",
+      "parentId": "fld_auth",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/auth/register",
+      "name": "Register Teacher",
+      "description": "Registrar novo professor",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Maria Santos\",\n  \"email\": \"maria@teste.com\",\n  \"password\": \"123456\",\n  \"userType\": \"teacher\",\n  \"phone\": \"(11) 88888-8888\",\n  \"subject\": \"Matemática\",\n  \"hourlyRate\": 75.00,\n  \"description\": \"Professora de matemática com 5 anos de experiência\",\n  \"education\": \"Licenciatura em Matemática - USP\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1705319900000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_login",
+      "parentId": "fld_auth",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/auth/login",
+      "name": "Login",
+      "description": "Fazer login na aplicação",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"joao@teste.com\",\n  \"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1705319800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_forgot_password",
+      "parentId": "fld_auth",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/auth/forgot-password",
+      "name": "Forgot Password",
+      "description": "Solicitar redefinição de senha",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"joao@teste.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1705319700000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_verify",
+      "parentId": "fld_auth",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/auth/verify",
+      "name": "Verify Token",
+      "description": "Verificar se o token JWT é válido",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.auth_token }}"
+      },
+      "metaSortKey": -1705319600000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_teachers_list",
+      "parentId": "fld_teachers",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/teachers",
+      "name": "List Teachers",
+      "description": "Listar todos os professores com filtros opcionais",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "page",
+          "value": "1",
+          "description": "Número da página"
+        },
+        {
+          "name": "limit",
+          "value": "12",
+          "description": "Itens por página"
+        },
+        {
+          "name": "search",
+          "value": "",
+          "description": "Busca por nome ou matéria"
+        },
+        {
+          "name": "subject",
+          "value": "",
+          "description": "Filtrar por matéria"
+        },
+        {
+          "name": "location",
+          "value": "",
+          "description": "Filtrar por localização"
+        },
+        {
+          "name": "minPrice",
+          "value": "0",
+          "description": "Preço mínimo por hora"
+        },
+        {
+          "name": "maxPrice",
+          "value": "200",
+          "description": "Preço máximo por hora"
+        },
+        {
+          "name": "minRating",
+          "value": "0",
+          "description": "Avaliação mínima"
+        }
+      ],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1705320000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_teachers_detail",
+      "parentId": "fld_teachers",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/teachers/1",
+      "name": "Get Teacher Details",
+      "description": "Obter detalhes de um professor específico",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1705319900000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_teachers_subjects",
+      "parentId": "fld_teachers",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/teachers/subjects/list",
+      "name": "Get Subjects",
+      "description": "Obter lista de matérias disponíveis",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1705319800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_teachers_schedule",
+      "parentId": "fld_teachers",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/teachers/1/schedule",
+      "name": "Schedule Session",
+      "description": "Agendar aula com professor (apenas estudantes)",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"scheduledDate\": \"2024-02-15 14:00:00\",\n  \"durationMinutes\": 60,\n  \"subject\": \"Matemática\",\n  \"notes\": \"Aula de revisão para prova\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.auth_token }}"
+      },
+      "metaSortKey": -1705319700000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_teachers_review",
+      "parentId": "fld_teachers",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/teachers/1/review",
+      "name": "Review Teacher",
+      "description": "Avaliar professor (apenas estudantes que tiveram aula)",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rating\": 5,\n  \"comment\": \"Excelente professor! Explica muito bem e é muito paciente.\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.auth_token }}"
+      },
+      "metaSortKey": -1705319600000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_users_profile",
+      "parentId": "fld_users",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/users/profile",
+      "name": "Get User Profile",
+      "description": "Obter perfil do usuário logado",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.auth_token }}"
+      },
+      "metaSortKey": -1705320000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_users_update_profile",
+      "parentId": "fld_users",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/users/profile",
+      "name": "Update User Profile",
+      "description": "Atualizar perfil do usuário",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"João Silva Santos\",\n  \"phone\": \"(11) 99999-8888\",\n  \"teacherInfo\": {\n    \"subject\": \"Matemática e Física\",\n    \"description\": \"Professor experiente em exatas\",\n    \"hourlyRate\": 85.00,\n    \"location\": \"São Paulo, SP\"\n  }\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.auth_token }}"
+      },
+      "metaSortKey": -1705319900000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_users_stats",
+      "parentId": "fld_users",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "url": "{{ _.base_url }}/api/users/stats",
+      "name": "Get User Stats",
+      "description": "Obter estatísticas do usuário para dashboard",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.auth_token }}"
+      },
+      "metaSortKey": -1705319800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_base",
+      "parentId": "wrk_main",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3001",
+        "auth_token": ""
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url", "auth_token"]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1705320000000,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_cookies",
+      "parentId": "wrk_main",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_main",
+      "parentId": "wrk_main",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "fileName": "Brain Tutor API",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    },
+    {
+      "_id": "fld_auth",
+      "parentId": "wrk_main",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "name": "Authentication",
+      "description": "Endpoints de autenticação",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1705320000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_teachers",
+      "parentId": "wrk_main",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "name": "Teachers",
+      "description": "Endpoints relacionados aos professores",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1705319000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_users",
+      "parentId": "wrk_main",
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "name": "Users",
+      "description": "Endpoints de usuários",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1705318000000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_main",
+      "parentId": null,
+      "modified": 1705320000000,
+      "created": 1705320000000,
+      "name": "Brain Tutor API",
+      "description": "Collection completa da API do Brain Tutor\n\n## Como usar:\n\n1. Configure a variável `base_url` no environment para apontar para seu servidor\n2. Faça login usando o endpoint \"Login\" para obter um token\n3. Copie o token da resposta e cole na variável `auth_token` no environment\n4. Agora você pode usar os endpoints autenticados\n\n## Exemplos de usuários para teste:\n\n**Estudante:**\n- Email: joao@teste.com\n- Senha: 123456\n\n**Professor:**\n- Email: maria@teste.com\n- Senha: 123456\n\n## Notas importantes:\n\n- Alguns endpoints requerem autenticação (indicados com 🔒)\n- Endpoints de professor só funcionam com usuários do tipo 'teacher'\n- Endpoints de estudante só funcionam com usuários do tipo 'student'\n- As senhas são criptografadas com bcrypt\n- Tokens JWT expiram em 7 dias",
+      "scope": "collection",
+      "_type": "workspace"
+    }
+  ]
+}
